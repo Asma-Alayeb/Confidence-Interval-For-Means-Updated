@@ -166,7 +166,7 @@
         var mean2 = parseFloat(document.getElementById("ci_mean2").value);
         var sd2 = parseFloat(document.getElementById("ci_sd2").value);
         var n2 = parseInt(document.getElementById("ci_size2").value);
-        var confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value);
+        var confidenceLevel = parseFloat(document.getElementById("ci_confidence_level").value) / 100;
 
         if (isNaN(mean1) || isNaN(sd1) || isNaN(n1) || isNaN(mean2) || isNaN(sd2) || isNaN(n2) || isNaN(confidenceLevel)) {
             alert("Please ensure all inputs are valid numbers.");
@@ -176,7 +176,7 @@
         var df = Math.min(n1 - 1, n2 - 1);
         var pooledVariance = ((Math.pow(sd1, 2) / n1) + (Math.pow(sd2, 2) / n2));
         var standardError = Math.sqrt(pooledVariance);
-        var marginOfError = jStat.studentT.inv((1 + (confidenceLevel / 100)) / 2, df) * standardError;
+        var marginOfError = jStat.studentT.inv((1 + confidenceLevel) / 2, df) * standardError;
         var ciLower = (mean1 - mean2) - marginOfError;
         var ciUpper = (mean1 - mean2) + marginOfError;
 
@@ -191,7 +191,7 @@
         var mean2 = parseFloat(document.getElementById("ss_mean2").value);
         var sd2 = parseFloat(document.getElementById("ss_sd2").value);
         var n2 = parseInt(document.getElementById("ss_size2").value);
-        var confidenceLevel = parseFloat(document.getElementById("ss_confidence_level").value);
+        var confidenceLevel = parseFloat(document.getElementById("ss_confidence_level").value) / 100;
         var marginOfError = parseFloat(document.getElementById("ss_margin_error").value);
 
         if (isNaN(mean1) || isNaN(sd1) || isNaN(n1) || isNaN(mean2) || isNaN(sd2) || isNaN(n2) || isNaN(confidenceLevel) || isNaN(marginOfError)) {
@@ -202,7 +202,7 @@
         var df = Math.min(n1 - 1, n2 - 1);
         var pooledVariance = ((Math.pow(sd1, 2) / n1) + (Math.pow(sd2, 2) / n2));
         var standardError = Math.sqrt(pooledVariance);
-        var criticalValue = jStat.studentT.inv((1 + (confidenceLevel / 100)) / 2, df);
+        var criticalValue = jStat.studentT.inv((1 + confidenceLevel) / 2, df);
         var requiredSampleSize = Math.ceil(Math.pow((criticalValue * standardError / marginOfError), 2));
 
         document.getElementById("sample_size_result").innerHTML = "Required Sample Size: " + requiredSampleSize;
