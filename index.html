@@ -115,8 +115,14 @@
     <p id="sample_size_result"></p>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 <script>
+// Load jStat library directly in the script
+const script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js';
+document.head.appendChild(script);
+
+script.onload = function() {
+    // Hypothesis Test Function
     function performHypothesisTest() {
         var mean1 = parseFloat(document.getElementById("mean1").value);
         var sd1 = parseFloat(document.getElementById("sd1").value);
@@ -159,6 +165,7 @@
         document.getElementById("p_value_result").innerHTML = "P-Value: " + pValue.toFixed(5);
     }
 
+    // Confidence Interval Function
     function calculateConfidenceInterval() {
         var mean1 = parseFloat(document.getElementById("ci_mean1").value);
         var sd1 = parseFloat(document.getElementById("ci_sd1").value);
@@ -184,6 +191,7 @@
         document.getElementById("ci_margin_error_result").innerHTML = "Margin of Error: " + marginOfError.toFixed(5);
     }
 
+    // Sample Size Calculator
     function calculateSampleSize() {
         var mean1 = parseFloat(document.getElementById("ss_mean1").value);
         var sd1 = parseFloat(document.getElementById("ss_sd1").value);
@@ -207,6 +215,12 @@
 
         document.getElementById("sample_size_result").innerHTML = "Required Sample Size: " + requiredSampleSize;
     }
+
+    // Expose functions to global scope
+    window.performHypothesisTest = performHypothesisTest;
+    window.calculateConfidenceInterval = calculateConfidenceInterval;
+    window.calculateSampleSize = calculateSampleSize;
+};
 </script>
 
 </body>
