@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hypothesis Testing for Two Population Means</title>
+    <title>Statistical Calculators</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,73 +47,73 @@
 <body>
 
 <header>
-    <h1>Hypothesis Testing for Two Population Means</h1>
+    <h1>Statistical Calculators</h1>
 </header>
 
 <nav>
-    <a href="#hypothesisTest">Hypothesis Test</a>
-    <a href="#confidenceInterval">Confidence Interval</a>
+    <a href="#confidenceInterval">Confidence Interval Calculator</a>
     <a href="#sampleSizeCalculator">Sample Size Calculator</a>
 </nav>
 
-<section id="hypothesisTest" class="calculator">
-    <h2>Hypothesis Test for Two Population Means</h2>
-    <form id="hypothesisTestForm" action="/hypothesis_test" method="post">
-        <p>Sample Mean 1 (x̄1): <input type="number" step="any" name="mean1" required></p>
-        <p>Sample Standard Deviation 1 (s1): <input type="number" step="any" name="sd1" required></p>
-        <p>Sample Size 1 (n1): <input type="number" name="size1" required></p>
-        <p>Sample Mean 2 (x̄2): <input type="number" step="any" name="mean2" required></p>
-        <p>Sample Standard Deviation 2 (s2): <input type="number" step="any" name="sd2" required></p>
-        <p>Sample Size 2 (n2): <input type="number" name="size2" required></p>
-        <p>Significance Level (α): <input type="number" step="any" name="alpha" required></p>
-        <p>Test Type: 
-            <select name="test_type" required>
-                <option value="left">Left Tail Test</option>
-                <option value="right">Right Tail Test</option>
-                <option value="two">Two Tail Test</option>
-            </select>
-        </p>
-        <p><button type="submit">Perform Hypothesis Test</button></p>
-    </form>
-    <div id="hypothesisTestResults">
-        <!-- Results will be inserted here by Flask -->
-    </div>
-</section>
-
 <section id="confidenceInterval" class="calculator">
-    <h2>Confidence Interval for the Difference Between Two Means</h2>
-    <form id="confidenceIntervalForm" action="/confidence_interval" method="post">
-        <p>Sample Mean 1 (x̄1): <input type="number" step="any" name="ci_mean1" required></p>
-        <p>Sample Standard Deviation 1 (s1): <input type="number" step="any" name="ci_sd1" required></p>
-        <p>Sample Size 1 (n1): <input type="number" name="ci_size1" required></p>
-        <p>Sample Mean 2 (x̄2): <input type="number" step="any" name="ci_mean2" required></p>
-        <p>Sample Standard Deviation 2 (s2): <input type="number" step="any" name="ci_sd2" required></p>
-        <p>Sample Size 2 (n2): <input type="number" name="ci_size2" required></p>
-        <p>Confidence Level (%): <input type="number" step="any" name="ci_confidence_level" required></p>
-        <p><button type="submit">Calculate Confidence Interval</button></p>
+    <h2>Confidence Interval Calculator</h2>
+    <form id="ciForm">
+        <p>Sample Mean (x̄): <input type="text" id="mean" required></p>
+        <p>Sample Standard Deviation (s): <input type="text" id="stdDev" required></p>
+        <p>Sample Size (n): <input type="text" id="sampleSize" required></p>
+        <p>Confidence Level (%): <input type="text" id="confidenceLevel" required></p>
+        <button type="button" onclick="calculateConfidenceInterval()">Calculate</button>
     </form>
-    <div id="confidenceIntervalResults">
-        <!-- Results will be inserted here by Flask -->
-    </div>
+    <p id="ciResult"></p>
 </section>
 
 <section id="sampleSizeCalculator" class="calculator">
     <h2>Sample Size Calculator</h2>
-    <form id="sampleSizeForm" action="/sample_size" method="post">
-        <p>Sample Mean 1 (x̄1): <input type="number" step="any" name="ss_mean1" required></p>
-        <p>Sample Standard Deviation 1 (s1): <input type="number" step="any" name="ss_sd1" required></p>
-        <p>Sample Size 1 (n1): <input type="number" name="ss_size1" required></p>
-        <p>Sample Mean 2 (x̄2): <input type="number" step="any" name="ss_mean2" required></p>
-        <p>Sample Standard Deviation 2 (s2): <input type="number" step="any" name="ss_sd2" required></p>
-        <p>Sample Size 2 (n2): <input type="number" name="ss_size2" required></p>
-        <p>Confidence Level (%): <input type="number" step="any" name="ss_confidence_level" required></p>
-        <p>Margin of Error: <input type="number" step="any" name="ss_margin_error" required></p>
-        <p><button type="submit">Calculate Sample Size</button></p>
+    <form id="ssForm">
+        <p>Estimated Margin of Error (E): <input type="text" id="marginError" required></p>
+        <p>Confidence Level (%): <input type="text" id="ssConfidenceLevel" required></p>
+        <p>Sample Standard Deviation (s): <input type="text" id="ssStdDev" required></p>
+        <button type="button" onclick="calculateSampleSize()">Calculate Sample Size</button>
     </form>
-    <div id="sampleSizeResults">
-        <!-- Results will be inserted here by Flask -->
-    </div>
+    <p id="ssResult"></p>
 </section>
 
+<script>
+    function calculateConfidenceInterval() {
+        const mean = parseFloat(document.getElementById('mean').value);
+        const stdDev = parseFloat(document.getElementById('stdDev').value);
+        const sampleSize = parseInt(document.getElementById('sampleSize').value);
+        const confidenceLevel = parseFloat(document.getElementById('confidenceLevel').value) / 100;
+
+        if (isNaN(mean) || isNaN(stdDev) || isNaN(sampleSize) || isNaN(confidenceLevel) || sampleSize <= 0) {
+            alert("Please enter valid numbers.");
+            return;
+        }
+
+        const tValue = jStat.studentt.inv(1 - (1 - confidenceLevel) / 2, sampleSize - 1);
+        const marginOfError = tValue * (stdDev / Math.sqrt(sampleSize));
+        const lowerBound = mean - marginOfError;
+        const upperBound = mean + marginOfError;
+
+        document.getElementById('ciResult').innerHTML = `Confidence Interval: [${lowerBound.toFixed(4)}, ${upperBound.toFixed(4)}]<br>Margin of Error: ${marginOfError.toFixed(4)}`;
+    }
+
+    function calculateSampleSize() {
+        const marginError = parseFloat(document.getElementById('marginError').value);
+        const confidenceLevel = parseFloat(document.getElementById('ssConfidenceLevel').value) / 100;
+        const stdDev = parseFloat(document.getElementById('ssStdDev').value);
+
+        if (isNaN(marginError) || isNaN(confidenceLevel) || isNaN(stdDev) || marginError <= 0 || confidenceLevel <= 0 || confidenceLevel >= 1) {
+            alert("Please enter valid numbers.");
+            return;
+        }
+
+        const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
+        const sampleSize = Math.ceil(Math.pow(zValue * stdDev / marginError, 2));
+
+        document.getElementById('ssResult').innerHTML = `Required Sample Size: ${sampleSize}`;
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 </body>
 </html>
