@@ -10,39 +10,24 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
         }
         header {
             background-color: #6a0dad; /* Purple */
             color: #fff;
             padding: 10px 0;
             text-align: center;
-            flex: 1;
-            width: 100%;
         }
         nav {
             background-color: #b8860b; /* Dark golden color */
             padding: 10px;
-            position: fixed;
-            width: 200px; /* Wider width for the sidebar */
-            height: 100vh; /* Full height of the viewport */
-            overflow: auto; /* Add scroll if necessary */
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual separation */
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav ul li {
-            margin-bottom: 10px;
+            text-align: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            font-size: 14px; /* Smaller font size */
-            display: block;
+            margin: 0 15px;
+            font-size: 14px;
             padding: 8px;
             border-radius: 4px;
         }
@@ -50,15 +35,9 @@
             background-color: #6a0dad; /* Lighter purple */
         }
         main {
-            margin-left: 220px; /* Adjust based on the width of the nav */
             padding: 15px;
-            max-width: 900px;
-            flex: 1;
             background-color: #f3e6f5; /* Light purple background */
-        }
-        h1, h2 {
-            margin-top: 0;
-            font-size: 24px;
+            text-align: center;
         }
         .calculator {
             margin: 20px auto;
@@ -75,23 +54,19 @@
             text-align: center;
             font-size: 12px;
             position: fixed;
-            width: calc(100% - 200px); /* Adjust based on the width of the nav */
+            width: 100%;
             bottom: 0;
-            margin-left: 200px; /* Adjust based on the width of the nav */
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li><a href="#confidenceInterval">Confidence Interval Calculator</a></li>
-        <li><a href="#sampleSizeCalculator">Sample Size Calculator</a></li>
-    </ul>
-</nav>
-
 <header>
     <h1>Statistical Calculators</h1>
+    <nav>
+        <a href="#confidenceInterval">Confidence Interval Calculator</a>
+        <a href="#sampleSizeCalculator">Sample Size Calculator</a>
+    </nav>
 </header>
 
 <main>
@@ -162,3 +137,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 </body>
 </html>
+
