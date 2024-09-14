@@ -134,7 +134,7 @@
         const lowerBound = mean - marginOfError;
         const upperBound = mean + marginOfError;
 
-        document.getElementById('ciResult').innerHTML = `Confidence Interval: [${lowerBound.toFixed(4)}, ${upperBound.toFixed(4)}]<br>Margin of Error: ${marginOfError.toFixed(4)}`;
+        document.getElementById('ciResult').innerHTML = `Confidence Interval: [${lowerBound.toFixed(4)}, ${upperBound.toFixed(4)}]`;
         MathJax.typeset(); // Re-render LaTeX
     }
 
@@ -163,4 +163,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
 </body>
 </html>
-
