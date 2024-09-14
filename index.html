@@ -98,8 +98,8 @@
     <section id="sampleSizeCalculator" class="calculator">
         <h2>Sample Size Calculator</h2>
         <form id="ssForm">
-            <label>Estimated Margin of Error (<span id="marginErrorLatex">\( E \)</span>):</label>
-            <input type="text" id="marginError" required>
+            <label>Estimated Margin of Error (<span id="marginErrorLatex">\( E \%\)</span>):</label> <!-- Changed to percentage -->
+            <input type="text" id="marginError" required placeholder="Enter margin of error as a percentage">
             
             <label>Confidence Level (<span id="ssConfidenceLevelLatex">\( \% \)</span>):</label>
             <input type="text" id="ssConfidenceLevel" required>
@@ -139,7 +139,7 @@
     }
 
     function calculateSampleSize() {
-        const marginError = parseFloat(document.getElementById('marginError').value);
+        let marginError = parseFloat(document.getElementById('marginError').value);
         const confidenceLevel = parseFloat(document.getElementById('ssConfidenceLevel').value) / 100;
         const stdDev = parseFloat(document.getElementById('ssStdDev').value);
 
@@ -147,6 +147,9 @@
             alert("Please enter valid numbers.");
             return;
         }
+
+        // Convert margin of error percentage to decimal
+        marginError = marginError / 100;
 
         const zValue = jStat.normal.inv(1 - (1 - confidenceLevel) / 2, 0, 1);
         const sampleSize = Math.ceil(Math.pow(zValue * stdDev / marginError, 2));
